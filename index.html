@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JUKI de nuestro Anticafé</title><link rel="stylesheet" href="css.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark">J</div><div><h1>JUKI</h1><p>DE NUESTRO ANTICAFÉ</p></div>
+    <div class="top-note">Registro · Tiempo · Bebidas</div>
+  </header>
+  <main class="wrap">
+    <section class="intro"><div><p class="eyebrow">BIENVENIDOS A JUKI</p><h2>Control sencillo de clientes y consumos</h2><p>Registra visitas, calcula las horas y lleva las bebidas por separado.</p></div><div class="intro-icon">☕</div></section>
+    <nav class="tabs" aria-label="Secciones">
+      <button class="tab active" data-tab="clientes">👥 Registro de grupos</button>
+      <button class="tab" data-tab="tiempo">⏱️ Cálculo de tiempo</button>
+      <button class="tab" data-tab="bebidas">🥤 Registro de bebidas</button>
+    </nav>
+
+    <section class="panel active" id="panel-clientes">
+      <div class="section-heading"><div><p class="eyebrow">MÓDULO 01</p><h2>Registro de grupos</h2><p>Asigna automáticamente un código JUKI; puedes cambiarlo desde el campo editable o con “Cambiar código” en la tabla.</p></div><button class="btn btn-outline" id="exportClientes">⬇ Exportar registros a PDF</button></div>
+      <form id="clienteForm" class="form-grid">
+        <input type="hidden" id="clienteId">
+        <label>Código del grupo (editable)<input id="clienteNombre" maxlength="30" placeholder="Ej. JUKI1" required><small class="field-help">Puedes cambiar el código aquí o pulsar “Cambiar código” en la tabla. Debe ser único.</small></label>
+        <label>Cantidad de personas<input id="clientePersonas" required type="number" min="1" step="1" value="1"></label>
+        <label class="check-label"><input id="clientePrimeraPagada" type="checkbox" checked> Primera hora pagada al ingresar (6 Bs por persona)</label>
+        <label>Hora de entrada<input id="clienteEntrada" required type="datetime-local"></label>
+        <label>Hora de salida (opcional)<input id="clienteSalida" type="datetime-local"></label>
+        <div class="form-actions"><button class="btn btn-primary" type="submit" id="guardarCliente">Guardar cliente</button><button class="btn btn-light" type="button" id="cancelarCliente">Limpiar</button></div>
+      </form>
+      <div class="toolbar"><input id="buscarCliente" class="search" placeholder="Buscar código JUKI…"><span id="clienteCount" class="count">0 registros</span></div>
+      <div class="table-wrap"><table><thead><tr><th>Código JUKI</th><th>Personas</th><th>Entrada</th><th>Salida</th><th>Tiempo</th><th>Pagado al entrar</th><th>Saldo pendiente</th><th>Bebidas elegidas</th><th>Acciones</th></tr></thead><tbody id="clientesTabla"></tbody></table></div>
+      <p class="hint">Los registros se guardan en este navegador. La primera hora se cobra al ingresar (6 Bs por persona). Al registrar la salida, JUKI calcula la tarifa total y descuenta lo ya pagado para mostrar solo el saldo pendiente. Puedes vincular las bebidas al cliente para ver qué pidió.</p>
+    </section>
+
+    <section class="panel" id="panel-tiempo">
+      <div class="section-heading"><div><p class="eyebrow">MÓDULO 02</p><h2>Cálculo de tiempo</h2><p>Tarifas por persona: 1 h = 6 Bs, 2 h = 10 Bs, 3 h = 14 Bs, 4 h = 17 Bs y 5 h = 20 Bs. Cada bloque iniciado de 30 minutos sobrantes agrega 3 Bs por persona.</p></div></div>
+      <div class="rate-cards"><div><span>1 hora</span><strong>6 Bs</strong></div><div><span>2 horas</span><strong>10 Bs</strong></div><div><span>3 horas</span><strong>14 Bs</strong></div><div><span>4 horas</span><strong>17 Bs</strong></div><div><span>5 horas</span><strong>20 Bs</strong></div><div><span>Desde la 6.ª hora</span><strong>+3 Bs/h</strong></div><div><span>Cada bloque iniciado de 30 min extra</span><strong>+3 Bs/persona</strong></div></div>
+      <form id="tiempoForm" class="form-grid">
+        <label>Código JUKI<select id="tiempoCliente"><option value="">Selecciona un código (opcional)</option></select></label>
+        <label>Hora de entrada<input id="tiempoEntrada" type="datetime-local" required></label>
+        <label>Hora de salida<input id="tiempoSalida" type="datetime-local" required></label>
+        <label>Personas<input id="tiempoPersonas" type="number" min="1" step="1" value="1" required></label>
+        <label>Horas extra editables<input id="tiempoExtras" type="number" min="0" step="1" value="0"><small class="field-help">Se sugieren según el tiempo transcurrido; puedes cambiarlas antes de calcular.</small></label>
+        <div class="form-actions"><button class="btn btn-primary" type="submit">Calcular importe</button><button class="btn btn-light" type="button" id="limpiarTiempo">Limpiar</button></div>
+      </form>
+      <div id="resultadoTiempo" class="result-card" aria-live="polite"><span>Importe estimado</span><strong id="importeTiempo">0 Bs</strong><p id="detalleTiempo">Completa las horas para calcular.</p><div class="result-actions"><button class="btn btn-outline" id="guardarCalculo" disabled>Guardar cálculo</button><button class="btn btn-outline" id="pdfCalculo" disabled>PDF de este cálculo</button></div></div>
+      <div class="toolbar"><h3>Cálculos guardados</h3><button class="btn btn-outline btn-small" id="exportTiempo">Exportar cálculos a PDF</button></div>
+      <div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Entrada</th><th>Salida</th><th>Personas</th><th>Horas extra</th><th>Importe</th><th>Acciones</th></tr></thead><tbody id="tiempoTabla"></tbody></table></div>
+      <p class="hint">La tarifa base es por persona: 1 h = 6 Bs; 2 h = 10 Bs; 3 h = 14 Bs; 4 h = 17 Bs; 5 h = 20 Bs; desde la 6.ª hora, cada hora adicional suma 3 Bs por persona. Después de las horas completas, cada bloque iniciado de 30 minutos sobrantes agrega 3 Bs por persona: 1 h 25 min agrega 3 Bs y 1 h 45 min agrega 6 Bs. El total se multiplica por la cantidad de personas. Puedes ajustar las horas extra antes de guardar.</p>
+    </section>
+
+    <section class="panel" id="panel-bebidas">
+      <div class="section-heading"><div><p class="eyebrow">MÓDULO 03</p><h2>Registro de bebidas</h2><p>Registra bebidas pagadas y bebidas de cortesía por separado. Las cortesías no aumentan el importe.</p></div><button class="btn btn-outline" id="exportBebidas">⬇ Exportar bebidas a PDF</button></div>
+      <div class="price-list"><span><b>4 Bs</b> · Té, Matecito, Café, Chocolate</span><span><b>3 Bs</b> · Avatar, Mango, Personal, Limonada, Tamarindo</span></div>
+      <form id="bebidaForm" class="form-grid drinks-form">
+        <input type="hidden" id="bebidaId">
+        <label>Código JUKI del pedido<select id="bebidaClienteSelect" required><option value="">Selecciona un grupo activo</option></select></label>
+        <label>Código JUKI<input id="bebidaCliente" required maxlength="30" placeholder="Selecciona el código de arriba" readonly aria-readonly="true"></label>
+        <label>Fecha y hora<input id="bebidaFecha" type="datetime-local" required></label>
+        <div class="drink-grid" id="drinkGrid"></div>
+        <div class="total-preview"><div><span>Total a cobrar por bebidas pagadas</span><small id="bebidaCortesiasPreview">0 bebidas de cortesía</small></div><strong id="bebidaTotalPreview">0 Bs</strong></div>
+        <div class="form-actions"><button class="btn btn-primary" type="submit" id="guardarBebida">Guardar bebidas</button><button class="btn btn-light" type="button" id="cancelarBebida">Limpiar</button></div>
+      </form>
+      <div class="toolbar"><input id="buscarBebida" class="search" placeholder="Buscar por código JUKI…"><span id="bebidaCount" class="count">0 registros</span></div>
+      <div class="table-wrap"><table><thead><tr><th>Código JUKI</th><th>Fecha</th><th>Detalle</th><th>Total</th><th>Acciones</th></tr></thead><tbody id="bebidasTabla"></tbody></table></div>
+      <p class="hint">En cada bebida puedes indicar cantidad pagada y cantidad de cortesía. Las cortesías quedan registradas en pantalla y en PDF, pero cuestan 0 Bs. Cada pedido debe vincularse a un código JUKI. Las bebidas aparecerán en la tabla del grupo correspondiente; ya no es necesario escribir nombres de personas.</p>
+    </section>
+    <footer>JUKI · De nuestro Anticafé <span>Los datos se guardan localmente en este dispositivo; para compartirlos entre computadoras hace falta una base de datos en la nube.</span></footer>
+  </main>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="script.js"></script>
+</body></html>

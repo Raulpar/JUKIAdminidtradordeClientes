@@ -1,0 +1,66 @@
+JUKI — DE NUESTRO ANTICAFÉ
+
+ARCHIVOS
+- index.html: pantalla principal de la aplicación.
+- css.css: diseño y estilos.
+- script.js: códigos JUKI automáticos, tarifas, bebidas, guardado y PDF.
+
+CÓMO ABRIR
+1. Extrae la carpeta JUKI_ANTICAFE del ZIP.
+2. Abre index.html con Chrome, Edge o Firefox.
+3. Para generar PDF se necesita conexión a internet para cargar jsPDF desde su CDN.
+
+CÓDIGOS AUTOMÁTICOS JUKI
+- Ya no hace falta escribir el nombre de los clientes. Cada nuevo grupo recibe automáticamente un código consecutivo: JUKI1, JUKI2, JUKI3, etc.
+- El código se muestra en el registro y se usa para vincular los pedidos de bebidas. Puedes editarlo desde el campo “Código del grupo”; no se permiten códigos duplicados.
+- Al borrar un grupo, los restantes se renumeran automáticamente por hora de entrada (JUKI1, JUKI2, JUKI3…). Se conservan sus IDs internos y se actualizan los códigos de los pedidos vinculados. El código siguiente será el consecutivo al total de grupos actuales.
+- Al abrir esta versión, los registros antiguos que tenían nombres se convierten a códigos JUKI. Los pedidos vinculados a un grupo se actualizan para mostrar el código correspondiente.
+- Los pedidos de bebidas nuevos deben vincularse a un grupo activo desde el desplegable.
+
+REGISTRO DE GRUPOS Y PRIMERA HORA PAGADA
+- Registra cantidad de personas, fecha/hora de entrada y salida. El código se asigna automáticamente.
+- La casilla “Primera hora pagada al ingresar” está marcada por defecto y registra 6 Bs por persona ya cobrados.
+- Al guardar la salida, el sistema calcula la tarifa completa según el tiempo y resta los 6 Bs por persona ya pagados. La columna “Saldo pendiente” muestra solo lo que falta cobrar.
+- Puedes desmarcar la casilla si la primera hora no fue pagada.
+- La tabla muestra las bebidas vinculadas a cada código, los totales pagados al entrar y el saldo pendiente.
+- Puedes editar el código desde el campo “Código del grupo” al editar un registro o directamente con el botón “Cambiar código” de la tabla. Los códigos deben ser únicos. Al cambiar un código, los pedidos y cálculos vinculados actualizan el código mostrado automáticamente. Al borrar un grupo, solo se reorganizan los códigos automáticos JUKI1, JUKI2, etc.; los códigos personalizados se conservan.
+
+TARIFAS POR PERSONA
+- 1 hora: 6 Bs por persona.
+- 2 horas: 10 Bs por persona.
+- 3 horas: 14 Bs por persona.
+- 4 horas: 17 Bs por persona.
+- 5 horas: 20 Bs por persona.
+- Desde la 6.ª hora: 3 Bs adicionales por cada hora completa adicional y por persona.
+- Después de las horas completas, cada bloque iniciado de 30 minutos sobrantes suma 3 Bs por persona. Ejemplos: 1 h 25 min suma 3 Bs; 1 h 45 min suma 6 Bs. El recargo se añade a la tarifa de horas completas y se descuenta la primera hora ya pagada.
+- Ejemplo de grupo: 2 personas pagan 12 Bs al entrar por la primera hora. Si se quedan 1 h 25 min, la tarifa total es 16 Bs y quedan 4 Bs de saldo para el grupo.
+
+CALCULADORA DE TIEMPO
+- Puedes vincular el cálculo con un código JUKI registrado o introducir los datos manualmente.
+- Al vincular un grupo, el cálculo descuenta la primera hora si está marcada como pagada.
+- Las horas extra se sugieren según el tiempo transcurrido y se pueden modificar antes de calcular.
+- Puedes guardar, editar, borrar y exportar cálculos a PDF.
+
+REGISTRO DE BEBIDAS PAGADAS Y DE CORTESÍA
+- Té, Matecito, Café y Chocolate: 4 Bs por unidad pagada.
+- Avatar, Mango, Personal, Limonada y Tamarindo: 3 Bs por unidad pagada.
+- Selecciona un código JUKI activo en el desplegable. El código se rellena automáticamente; no se escriben nombres.
+- Los pedidos vinculados aparecen en la columna “Bebidas elegidas” del registro de grupos.
+- Cada bebida tiene campos separados para cantidad pagada y cantidad de cortesía. Las cortesías cuestan 0 Bs.
+- Puedes guardar, editar, borrar y exportar registros de bebidas a PDF.
+
+GUARDADO Y RESPALDO
+Los datos se guardan en el almacenamiento local del navegador y dispositivo actual. No se sincronizan entre dispositivos. Para compartir registros entre varias computadoras, hace falta conectar la página a una base de datos en la nube. No borres los datos del sitio si necesitas conservar los registros. Se recomienda exportar PDFs con regularidad.
+
+
+ELIMINAR Y REORGANIZAR CÓDIGOS
+- Si borras un grupo, también se borran los pedidos de bebidas y cálculos de tiempo vinculados a ese grupo.
+- Los grupos que quedan se renombran automáticamente JUKI1, JUKI2, JUKI3... según su hora de entrada. Los pedidos se mantienen asociados al grupo correcto.
+- Exporta tus registros a PDF antes de borrar grupos si necesitas conservar una copia histórica.
+
+
+EDITAR CÓDIGO DE GRUPO
+- En Registro de grupos, pulsa “Editar” en el grupo correspondiente.
+- Modifica el campo “Código del grupo (editable)” y pulsa “Guardar cambios”.
+- El código debe ser único. Si ya existe, el sistema avisará y no guardará el duplicado.
+- Los pedidos de bebidas y los cálculos vinculados al grupo mantienen su relación y mostrarán el nuevo código.
